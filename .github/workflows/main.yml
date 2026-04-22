@@ -1,0 +1,28 @@
+name: Botni yurgizish
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 */6 * * *' # Har 6 soatda avtomat qayta yoqadi
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodni yuklash
+        uses: actions/checkout@v2
+
+      - name: Pythonni sozlash
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Kerakli narsalarni o'rnatish
+        run: |
+          pip install -r requirements.txt
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Botni ishga tushirish
+        run: python bot2.py
